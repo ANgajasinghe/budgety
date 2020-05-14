@@ -115,9 +115,11 @@ var UIController = (function () {
             fields = document.querySelectorAll(DOMStrings.inputDes +','+ DOMStrings.inputValue);
             console.log(fields);
 
+            //list to array
             var fieldsArr =  Array.prototype.slice.call(fields);
             console.log(fieldsArr);
 
+            //how to use foreach
             fieldsArr.forEach( function(current,index,array) {
                 console.log(current);
                 current.value = "";
