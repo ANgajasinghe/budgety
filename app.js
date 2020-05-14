@@ -67,7 +67,9 @@ var UIController = (function () {
         inputType:'.add__type',
         inputDes:'.add__description',
         inputValue:'.add__value',
-        addBtn:'.add__btn'
+        addBtn:'.add__btn',
+        incomeOcntainer:'.income__list',
+        expensesOcntainer:'.expenses__list',
     }
 
     var obj = {
@@ -79,9 +81,38 @@ var UIController = (function () {
             }
             
         },
+        addListItem:function(obj, type){
+            var html,newHtml,element;
+
+                //Create Html  string with placeholder text
+                if(type === 'inc'){
+                    element = DOMStrings.incomeOcntainer;
+                    html =  '<div class="item clearfix" id="income-%id%"> <div class="item__description">%description%</div> <div class="right clearfix">'+
+                    '<div class="item__value">%value% </div><div class="item__delete"><button class="item__delete--btn">'+
+                    '<i class="ion-ios-close-outline"></i></button></div></div></div>';
+                }
+                else if (type === 'exp'){
+                    element = DOMStrings.expensesOcntainer;
+                    html ='<div class="item clearfix" id="expense-%id%"> <div class="item__description">%description%</div><div class="right clearfix">'+
+                    '<div class="item__value">- %value%</div> <div class="item__percentage">21%</div> <div class="item__delete">'+
+                    '<button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div>'+'</div>'+'</div>';
+                }
+            
+                //replace the placeholder text with some actual data
+
+                newHtml = html.replace('%id%',obj.id);
+                newHtml = newHtml.replace('%description%',obj.description);
+                newHtml = newHtml.replace('%value%',obj.value);
+
+                //Insert the HTML into the DO(M
+
+                document.querySelector(element).insertAdjacentHTML('beforeend',newHtml);
+                 
+        },
         getDOM:function(){
             return DOMStrings; 
         }
+       
     }
    return obj;
    
@@ -101,7 +132,10 @@ var controller = (function (budgetCrtl,UiCrtl) {
 
         //2.add item to budget controller
         newItem = budgetCrtl.addItem(input.type,input.description,input.value);
+
         //3.add item to the UI
+        UiCrtl.addListItem(newItem,input.type)
+
         //4.calculate the budget 
         //5.display the budget on the UI  
     };
